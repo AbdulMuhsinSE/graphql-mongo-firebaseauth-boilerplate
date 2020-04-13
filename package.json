@@ -1,0 +1,37 @@
+{
+  "name": "graphql-firebase-mongodb-template",
+  "version": "1.0.0",
+  "description": "A boilerplate template that allows a quick spin up of a graphql server that utilizes firebase authentication with mongodb as the db layer",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "visualize-server": "./node_modules/.bin/serve index.html -p 8585",
+    "start": "nodemon server.js",
+    "visualize": "npm-run-all --parallel start visualize-server"
+  },
+  "keywords": [],
+  "author": "AbdulMuhsin J. Al-Kandari",
+  "license": "ISC",
+  "devDependencies": {
+    "dotenv": "^8.2.0",
+    "http-server": "latest",
+    "nodemon": "latest",
+    "npm-run-all": "latest",
+    "serve": "latest"
+  },
+  "dependencies": {
+    "apollo-server-express": "^2.12.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-graphql": "^0.9.0",
+    "firebase-admin": "^8.10.0",
+    "graphql": "^15.0.0",
+    "graphql-errors": "^2.1.0",
+    "graphql-subscriptions": "^1.1.0",
+    "graphql-tools": "^4.0.7",
+    "graphql-type-json": "^0.3.1",
+    "moment": "^2.24.0",
+    "mongoose": "^5.9.9",
+    "subscriptions-transport-ws": "latest"
+  }
+}

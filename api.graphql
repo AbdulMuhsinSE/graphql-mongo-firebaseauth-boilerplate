@@ -1,0 +1,41 @@
+scalar JSON
+
+type Mutation {
+    users: [User],
+    user(id: ID!): User,
+    userByEmail(email: String): User,
+    updateUser(newUserData: UserInput!): User,
+    createUser(user: UserInput, userRole: String): User
+}
+
+type Query {
+    allErrors: [Error],
+    users: [User],
+    user(id: ID!): User
+}
+
+type Error {
+    error: JSON,
+    errorString: String,
+    code: String,
+    timeStamp: Int,
+    timeFormatted: String
+}
+
+input UserInput {
+    uid: ID!, # Firebase UID
+    firstName: String,
+    lastName: String,
+    email: String,
+    phone: String,
+    role: String
+}
+
+type User {
+    id: ID!, # Firebase UID
+    firstName: String,
+    lastName: String,
+    email: String,
+    phone: String,
+    role: String, # Role of the user
+}
