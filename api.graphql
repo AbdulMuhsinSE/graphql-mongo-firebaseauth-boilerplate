@@ -6,6 +6,7 @@ type Mutation {
     userByEmail(email: String): User,
     updateUser(newUserData: UserInput!): User,
     createUser(user: UserInput, userRole: String): User
+    createUserTest: User
 }
 
 type Query {
