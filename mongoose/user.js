@@ -21,8 +21,13 @@ async function updateUser({newUserData}, authUser) {
 }
 
 async function createUserRoleAdmin({user, userRole}, authUser) {
+    /*
+    The reasoning behind creating the firebase user on the front end and only sending the
+    user object to the backend, is to eliminate the need for password management and
+    password on our part.
+     */
     user._id = user.uid;
-    user.role = "userRole";
+    user.role = userRole;
     delete user.uid;
 
     try {
@@ -33,6 +38,51 @@ async function createUserRoleAdmin({user, userRole}, authUser) {
         return newUser.save();
     } catch (err) {
         throw new CustomError("Unauthorized Access", 403, err)
+    }
+}
+
+async function createUserNoAuth({user}, authUser) {
+    user._id = user.uid;
+    user.role = "user-role";
+    delete user.uid;
+
+    try {
+        const newUser = new User(user);
+        const customUserClaims = {};
+        customUserClaims[user.role] = true;
+        await admin.auth().setCustomUserClaims(user._id, customUserClaims);
+        return newUser.save();
+    } catch (err) {
+        throw new CustomError("Something Went Wrong", 500, err)
+    }
+}
+
+async function createUserTestNoAuth(authUser) {
+    try {
+        let userRecord = await admin.auth().createUser({
+            email: 'user@example.com',
+            emailVerified: false,
+            phoneNumber: '+11234567890',
+            password: 'secretPassword',
+            displayName: 'John Doe',
+            photoURL: 'http://www.example.com/12345678/photo.png',
+            disabled: false
+        });
+
+        let newUser = new User({
+            firstName: "John",
+            lastName: "Doe",
+            email: "user@example.com",
+            _id: userRecord.uid,
+            role: "user-role",
+            phone: '+11234567890'
+        });
+
+        return newUser.save()
+    } catch (err) {
+        console.log(err);
+        throw new CustomError("Something Went Wrong", 500, err)
+
     }
 }
 
@@ -57,7 +107,8 @@ async function getUserByEmail({email}, authUser) {
 
 module.exports = {
     userQueries: {
-        createUser: createUserRoleAdmin,
+        createUser: createUserNoAuth,
+        createUserTest: createUserTestNoAuth,
         users: getUsersRoleAdmin,
         user: getUser,
         userByEmail: getUserByEmail,

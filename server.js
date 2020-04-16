@@ -28,6 +28,12 @@ const schema = new ApolloServer({
 });
 
 // Attempt to connect to the DB
+
+console.log(DB_URL);
+mongoose.set("useNewUrlParser", true);
+mongoose.set("useUnifiedTopology", true);
+mongoose.connect(DB_URL);
+
 //TODO: handle connection errors.
 // mongoose.connect(DB_URL);
 mongoose.connection.on("error", error => {
@@ -57,6 +63,7 @@ schema.applyMiddleware({app: server});
 const ws = createServer(server);
 ws.listen(PORT, () => {
     console.log(`GraphQL Server is now running on http://localhost:${PORT}`);
+    console.log(`GraphQL Server is now running on http://localhost:${PORT}/graphql`);
     new SubscriptionServer({
         rootValue: apiRoot,
         schema: schema,
