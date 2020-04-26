@@ -111,7 +111,7 @@ function handleErrors(error) {
 function authGateway(apiRoot) {
     admin.initializeApp({
         credential: admin.credential.cert(serviceAccount),
-        databaseURL: "https://[project-url].firebaseio.com" //database url from your firebase console
+        databaseURL: process.env.FIREBASE_PROJECT_DB_URL //database url from your firebase console, matches the following pattern "https://[project-url].firebaseio.com"
     });
 
     Object.keys(apiRoot).forEach(key => {

@@ -41,6 +41,8 @@ async function createUserRoleAdmin({user, userRole}, authUser) {
     }
 }
 
+//This function is to create and propagate the user on the mongoDB side in addition to setting user permissions of a regular user.
+//Remember that user creation for firebase happens on the front end.
 async function createUserNoAuth({user}, authUser) {
     user._id = user.uid;
     user.role = "user-role";
@@ -49,7 +51,7 @@ async function createUserNoAuth({user}, authUser) {
     try {
         const newUser = new User(user);
         const customUserClaims = {};
-        customUserClaims[user.role] = true;
+        customUserClaims[user.role] = true; //We set the user role to user-role to indicate that they have the permissions of a regular user
         await admin.auth().setCustomUserClaims(user._id, customUserClaims);
         return newUser.save();
     } catch (err) {
@@ -57,6 +59,8 @@ async function createUserNoAuth({user}, authUser) {
     }
 }
 
+
+//TODO: Remember to delete this function before deploying your API. Also if triggered remember to delete the associated user created in firebase
 async function createUserTestNoAuth(authUser) {
     try {
         let userRecord = await admin.auth().createUser({
