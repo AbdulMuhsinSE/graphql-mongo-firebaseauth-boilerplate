@@ -20,20 +20,19 @@ async function updateUser({newUserData}, authUser) {
     }
 }
 
-async function createUserRoleAdmin({user, userRole}, authUser) {
+async function createUserWithTypeRoleAdmin({user}, authUser) {
     /*
     The reasoning behind creating the firebase user on the front end and only sending the
     user object to the backend, is to eliminate the need for password management and
     password on our part.
      */
     user._id = user.uid;
-    user.role = userRole;
     delete user.uid;
 
     try {
         const newUser = new User(user);
         const customUserClaims = {};
-        customUserClaims[userRole] = true;
+        customUserClaims[user.role] = true;
         await admin.auth().setCustomUserClaims(user._id, customUserClaims);
         return newUser.save();
     } catch (err) {
@@ -45,7 +44,7 @@ async function createUserRoleAdmin({user, userRole}, authUser) {
 //Remember that user creation for firebase happens on the front end.
 async function createUserNoAuth({user}, authUser) {
     user._id = user.uid;
-    user.role = "user-role";
+    user.role = "user";
     delete user.uid;
 
     try {
@@ -112,6 +111,7 @@ async function getUserByEmail({email}, authUser) {
 module.exports = {
     userQueries: {
         createUser: createUserNoAuth,
+        createUserWithType: createUserWithTypeRoleAdmin,
         createUserTest: createUserTestNoAuth,
         users: getUsersRoleAdmin,
         user: getUser,

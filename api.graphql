@@ -5,7 +5,8 @@ type Mutation {
     user(id: ID!): User,
     userByEmail(email: String): User,
     updateUser(newUserData: UserInput!): User,
-    createUser(user: UserInput, userRole: String): User
+    createUser(user: UserInput): User,
+    createUserWithType(user: UserInput): User,
     createUserTest: User
 }
 
