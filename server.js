@@ -24,7 +24,10 @@ const schema = new ApolloServer({
     resolvers: {
         JSON: GraphQLJSON
     },
-    rootValue: apiRoot
+    rootValue: apiRoot,
+    context: ({req}) => {
+        return req
+    }
 });
 
 // Attempt to connect to the DB
