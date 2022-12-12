@@ -22,7 +22,7 @@
     "apollo-server-express": "^2.12.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-graphql": "^0.9.0",
     "firebase-admin": "^8.10.0",
     "graphql": "^15.0.0",
